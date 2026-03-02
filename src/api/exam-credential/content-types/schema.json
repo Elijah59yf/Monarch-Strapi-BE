@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exam_credentials",
+  "info": {
+    "singularName": "exam-credential",
+    "pluralName": "exam-credentials",
+    "displayName": "ExamCredential"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "MatricNo": { "type": "string" },
+    "Surname": { "type": "string" },
+    "MoodlePassword": { "type": "string" },
+    "BatchNumber": { "type": "integer" }
+  }
+}
