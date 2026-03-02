@@ -1,5 +1,5 @@
 module.exports = () => ({
-  'import-export-entries': {
+  'strapi-csv-import-export': {
     enabled: true,
   },
 });

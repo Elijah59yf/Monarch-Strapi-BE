@@ -20,7 +20,7 @@
     "@strapi/strapi": "5.29.0",
     "mysql2": "3.9.8",
     "pg": "^8.16.3",
-    "strapi-plugin-import-export-entries": "^1.22.0",
+    "strapi-csv-import-export": "^1.0.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
