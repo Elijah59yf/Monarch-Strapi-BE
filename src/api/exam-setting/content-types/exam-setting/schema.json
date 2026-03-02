@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "exam_settings",
+  "info": {
+    "singularName": "exam-setting",
+    "pluralName": "exam-settings",
+    "displayName": "ExamSetting"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "CurrentActiveBatch": {
+      "type": "integer",
+      "default": 1
+    }
+  }
+}
