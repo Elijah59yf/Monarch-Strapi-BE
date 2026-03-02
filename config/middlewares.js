@@ -18,7 +18,7 @@ module.exports = [
         'http://127.0.0.1:8080',
 
         // Your future Cloudflare domain
-        'https://monarchdem.me' // CHANGE THIS
+        'https://monarchdem.me', // CHANGE THIS
         'https://examportal.monarchdem.me'
       ],
     },
