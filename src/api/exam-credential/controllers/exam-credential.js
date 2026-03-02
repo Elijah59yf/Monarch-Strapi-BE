@@ -13,7 +13,14 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
     try {
       // 1. Fetch the master switch (Single Type)
       const settings = await strapi.entityService.findMany('api::exam-setting.exam-setting');
-      const activeBatch = settings?.CurrentActiveBatch || 1;
+      
+      // We use ?? instead of || so that 0 is accepted as a valid number
+      const activeBatch = settings?.CurrentActiveBatch ?? 1;
+
+      // NEW: The "Batch 0" Lockdown Check
+      if (activeBatch === 0) {
+        return ctx.forbidden('The exam portal is currently closed. Please wait for your batch to be called.');
+      }
 
       // 2. Find the student
       const entry = await strapi.db.query('api::exam-credential.exam-credential').findOne({
