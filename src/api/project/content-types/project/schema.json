@@ -29,6 +29,15 @@
         "videos",
         "audios"
       ]
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "hardware",
+        "apps",
+        "websites",
+        "codes"
+      ]
     }
   }
 }
