@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "courses",
+  "info": {
+    "singularName": "course",
+    "pluralName": "courses",
+    "displayName": "Course"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "CourseCode": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Title": {
+      "type": "string",
+      "required": true
+    },
+    "Faculty": {
+      "type": "string",
+      "required": true
+    },
+    "NormalPrice": {
+      "type": "integer",
+      "required": true,
+      "default": 500
+    },
+    "LatePrice": {
+      "type": "integer",
+      "required": true,
+      "default": 700
+    },
+    "IsNormalRegOpen": {
+      "type": "boolean",
+      "default": true
+    },
+    "IsLateRegOpen": {
+      "type": "boolean",
+      "default": false
+    },
+    "MoodleCourseID": {
+      "type": "integer",
+      "required": true
+    },
+    "BatchCapacity": {
+      "type": "integer",
+      "default": 18
+    },
+    "IsPasswordReleaseOpen": {
+      "type": "boolean",
+      "default": false
+    },
+    "ActiveBatches": {
+      "type": "json",
+      "default": []
+    },
+    "exam_credentials": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::exam-credential.exam-credential",
+      "mappedBy": "courses"
+    }
+  }
+}

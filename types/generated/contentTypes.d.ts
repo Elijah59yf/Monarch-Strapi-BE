@@ -463,6 +463,125 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
+  collectionName: 'courses';
+  info: {
+    displayName: 'Course';
+    pluralName: 'courses';
+    singularName: 'course';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    ActiveBatches: Schema.Attribute.JSON & Schema.Attribute.DefaultTo<[]>;
+    BatchCapacity: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<18>;
+    CourseCode: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    exam_credentials: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::exam-credential.exam-credential'
+    >;
+    Faculty: Schema.Attribute.String & Schema.Attribute.Required;
+    IsLateRegOpen: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    IsNormalRegOpen: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    IsPasswordReleaseOpen: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    LatePrice: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<700>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::course.course'
+    > &
+      Schema.Attribute.Private;
+    MoodleCourseID: Schema.Attribute.Integer & Schema.Attribute.Required;
+    NormalPrice: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<500>;
+    publishedAt: Schema.Attribute.DateTime;
+    Title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiExamCredentialExamCredential
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'exam_credentials';
+  info: {
+    displayName: 'ExamCredential';
+    pluralName: 'exam-credentials';
+    singularName: 'exam-credential';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    CourseBatches: Schema.Attribute.JSON;
+    courses: Schema.Attribute.Relation<'manyToMany', 'api::course.course'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Email: Schema.Attribute.Email;
+    Firstname: Schema.Attribute.String;
+    IsSynced: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exam-credential.exam-credential'
+    > &
+      Schema.Attribute.Private;
+    LowSurname: Schema.Attribute.String;
+    MatricNo: Schema.Attribute.String;
+    MoodlePassword: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    Surname: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiExamSettingExamSetting extends Struct.SingleTypeSchema {
+  collectionName: 'exam_settings';
+  info: {
+    displayName: 'ExamSetting';
+    pluralName: 'exam-settings';
+    singularName: 'exam-setting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    CurrentActiveBatch: Schema.Attribute.Integer &
+      Schema.Attribute.DefaultTo<1>;
+    IsLateRegOpen: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    IsNormalRegOpen: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exam-setting.exam-setting'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProjectProject extends Struct.CollectionTypeSchema {
   collectionName: 'projects';
   info: {
@@ -1010,6 +1129,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
+      'api::course.course': ApiCourseCourse;
+      'api::exam-credential.exam-credential': ApiExamCredentialExamCredential;
+      'api::exam-setting.exam-setting': ApiExamSettingExamSetting;
       'api::project.project': ApiProjectProject;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

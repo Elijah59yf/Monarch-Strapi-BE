@@ -10,9 +10,19 @@
     "draftAndPublish": false
   },
   "attributes": {
+    "Firstname": { "type": "string" },
     "MatricNo": { "type": "string" },
     "Surname": { "type": "string" },
+    "LowSurname": { "type": "string" },
+    "Email": { "type": "email" },
     "MoodlePassword": { "type": "string" },
-    "BatchNumber": { "type": "integer" }
+    "CourseBatches": { "type": "json" },
+    "IsSynced": { "type": "boolean", "default": false },
+    "courses": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::course.course",
+      "inversedBy": "exam_credentials"
+    }
   }
 }

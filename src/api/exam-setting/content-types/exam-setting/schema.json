@@ -13,6 +13,14 @@
     "CurrentActiveBatch": {
       "type": "integer",
       "default": 1
+    },
+    "IsNormalRegOpen": {
+      "type": "boolean",
+      "default": true
+    },
+    "IsLateRegOpen": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
