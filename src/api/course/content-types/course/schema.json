@@ -20,7 +20,23 @@
       "required": true
     },
     "Faculty": {
-      "type": "string",
+      "type": "enumeration",
+      "enum": [
+        "General",
+        "STEM",
+        "Arts",
+        "Basic Medical Sciences",
+        "Clinical Sciences",
+        "Engineering",
+        "Law",
+        "Management Sciences",
+        "Science",
+        "Social Sciences",
+        "Education",
+        "Environmental Sciences",
+        "Pharmacy"
+      ],
+      "default": "General",
       "required": true
     },
     "NormalPrice": {
@@ -62,6 +78,47 @@
       "relation": "manyToMany",
       "target": "api::exam-credential.exam-credential",
       "mappedBy": "courses"
+    },
+    "Department": {
+      "type": "enumeration",
+      "enum": [
+        "General",
+        "Computer Engineering",
+        "Systems Engineering",
+        "Mechanical Engineering",
+        "Electrical and Electronics Engineering",
+        "Civil Engineering",
+        "Chemical Engineering",
+        "Surveying and Geoinformatics",
+        "Computer Science",
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Geosciences",
+        "Cell Biology and Genetics",
+        "Marine Sciences",
+        "Business Administration",
+        "Accounting",
+        "Finance",
+        "Economics",
+        "Mass Communication",
+        "Political Science",
+        "Psychology",
+        "Sociology",
+        "Law",
+        "Medicine and Surgery",
+        "Dentistry",
+        "Pharmacy",
+        "Nursing",
+        "Architecture",
+        "Estate Management",
+        "English",
+        "History and Strategic Studies",
+        "Philosophy",
+        "Creative Arts"
+      ],
+      "default": "General",
+      "required": true
     }
   }
 }

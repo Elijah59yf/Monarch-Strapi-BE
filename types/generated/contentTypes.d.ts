@@ -482,11 +482,69 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    Department: Schema.Attribute.Enumeration<
+      [
+        'General',
+        'Computer Engineering',
+        'Systems Engineering',
+        'Mechanical Engineering',
+        'Electrical and Electronics Engineering',
+        'Civil Engineering',
+        'Chemical Engineering',
+        'Surveying and Geoinformatics',
+        'Computer Science',
+        'Mathematics',
+        'Physics',
+        'Chemistry',
+        'Geosciences',
+        'Cell Biology and Genetics',
+        'Marine Sciences',
+        'Business Administration',
+        'Accounting',
+        'Finance',
+        'Economics',
+        'Mass Communication',
+        'Political Science',
+        'Psychology',
+        'Sociology',
+        'Law',
+        'Medicine and Surgery',
+        'Dentistry',
+        'Pharmacy',
+        'Nursing',
+        'Architecture',
+        'Estate Management',
+        'English',
+        'History and Strategic Studies',
+        'Philosophy',
+        'Creative Arts',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'General'>;
     exam_credentials: Schema.Attribute.Relation<
       'manyToMany',
       'api::exam-credential.exam-credential'
     >;
-    Faculty: Schema.Attribute.String & Schema.Attribute.Required;
+    Faculty: Schema.Attribute.Enumeration<
+      [
+        'General',
+        'STEM',
+        'Arts',
+        'Basic Medical Sciences',
+        'Clinical Sciences',
+        'Engineering',
+        'Law',
+        'Management Sciences',
+        'Science',
+        'Social Sciences',
+        'Education',
+        'Environmental Sciences',
+        'Pharmacy',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'General'>;
     IsLateRegOpen: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     IsNormalRegOpen: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<true>;
