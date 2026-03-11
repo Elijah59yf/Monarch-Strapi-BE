@@ -119,6 +119,9 @@
       ],
       "default": "General",
       "required": true
+    },
+    "GroupChatLink": {
+      "type": "string"
     }
   }
 }

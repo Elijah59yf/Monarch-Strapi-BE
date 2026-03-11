@@ -545,6 +545,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'General'>;
+    GroupChatLink: Schema.Attribute.String;
     IsLateRegOpen: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     IsNormalRegOpen: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<true>;
