@@ -28,7 +28,8 @@ module.exports = [
         'Origin',
         'Accept',
         'X-Requested-With',
-        'X-CSRF-Token'
+        'X-CSRF-Token',
+        'x-admin-secret'
       ],
       credentials: true,
       keepHeaderOnError: true,
