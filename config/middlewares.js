@@ -15,10 +15,11 @@ module.exports = [
         // Your new Apache server
         'http://localhost:8080', 
         'http://127.0.0.1:8080',
-
+        'https://exam.monarchdem.me', //Registration Portal
+        'https://console.monarchdem.me', //Admin Portal
         // Your future Cloudflare domain
-        'https://monarchdem.me', // CHANGE THIS
-        'https://examportal.monarchdem.me'
+        'https://monarchdem.me' // CHANGE THIS
+
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       headers: [
