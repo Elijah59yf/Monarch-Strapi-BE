@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "academic_terms",
+  "info": {
+    "singularName": "academic-term",
+    "pluralName": "academic-terms",
+    "displayName": "AcademicTerm"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "Session": {
+      "type": "string",
+      "required": true
+    },
+    "Semester": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -430,6 +430,35 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAcademicTermAcademicTerm extends Struct.SingleTypeSchema {
+  collectionName: 'academic_terms';
+  info: {
+    displayName: 'AcademicTerm';
+    pluralName: 'academic-terms';
+    singularName: 'academic-term';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::academic-term.academic-term'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Semester: Schema.Attribute.String & Schema.Attribute.Required;
+    Session: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
   collectionName: 'blog_posts';
   info: {
@@ -572,6 +601,39 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEmailProviderEmailProvider extends Struct.SingleTypeSchema {
+  collectionName: 'email_providers';
+  info: {
+    description: 'Global email provider configuration for the broadcasting system';
+    displayName: 'EmailProvider';
+    pluralName: 'email-providers';
+    singularName: 'email-provider';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    EmailProviderMode: Schema.Attribute.Enumeration<
+      ['Automatic', 'Resend Only', 'Brevo Only']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Automatic'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::email-provider.email-provider'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiExamCredentialExamCredential
   extends Struct.CollectionTypeSchema {
   collectionName: 'exam_credentials';
@@ -584,12 +646,12 @@ export interface ApiExamCredentialExamCredential
     draftAndPublish: false;
   };
   attributes: {
+    ContactEmail: Schema.Attribute.Email;
     CourseBatches: Schema.Attribute.JSON;
     courses: Schema.Attribute.Relation<'manyToMany', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Email: Schema.Attribute.Email;
     Firstname: Schema.Attribute.String;
     IsSynced: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -600,9 +662,45 @@ export interface ApiExamCredentialExamCredential
       Schema.Attribute.Private;
     LowSurname: Schema.Attribute.String;
     MatricNo: Schema.Attribute.String;
+    MoodleEmail: Schema.Attribute.Email;
     MoodlePassword: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    student_profile: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::student-profile.student-profile'
+    >;
     Surname: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiExamResultExamResult extends Struct.CollectionTypeSchema {
+  collectionName: 'exam_results';
+  info: {
+    displayName: 'ExamResult';
+    pluralName: 'exam-results';
+    singularName: 'exam-result';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    CourseCode: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    FinalScore: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    IsPublished: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exam-result.exam-result'
+    > &
+      Schema.Attribute.Private;
+    MatricNumber: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -671,6 +769,44 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     >;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiStudentProfileStudentProfile
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'student_profiles';
+  info: {
+    displayName: 'StudentProfile';
+    pluralName: 'student-profiles';
+    singularName: 'student-profile';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    ContactEmail: Schema.Attribute.Email;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    exam_credentials: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exam-credential.exam-credential'
+    >;
+    IsEmailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::student-profile.student-profile'
+    > &
+      Schema.Attribute.Private;
+    MasterPIN: Schema.Attribute.String & Schema.Attribute.Unique;
+    MatricNumber: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1187,11 +1323,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::academic-term.academic-term': ApiAcademicTermAcademicTerm;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
       'api::course.course': ApiCourseCourse;
+      'api::email-provider.email-provider': ApiEmailProviderEmailProvider;
       'api::exam-credential.exam-credential': ApiExamCredentialExamCredential;
+      'api::exam-result.exam-result': ApiExamResultExamResult;
       'api::exam-setting.exam-setting': ApiExamSettingExamSetting;
       'api::project.project': ApiProjectProject;
+      'api::student-profile.student-profile': ApiStudentProfileStudentProfile;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

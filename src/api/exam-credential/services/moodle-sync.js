@@ -77,7 +77,7 @@ async function syncStudentToMoodle(studentData, coursesArray, assignedBatches) {
         'users[0][password]': studentData.MoodlePassword,
         'users[0][firstname]': studentData.Firstname,
         'users[0][lastname]': studentData.Surname,
-        'users[0][email]': studentData.Email,
+        'users[0][email]': studentData.MoodleEmail,
       });
 
       if (!Array.isArray(created) || created.length === 0) {

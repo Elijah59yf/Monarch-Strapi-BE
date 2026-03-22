@@ -5,7 +5,6 @@ module.exports = [
     name: 'strapi::cors',
     config: {
       enabled: true,
-      headers: '*',
       origin: [
         'http://localhost:1337', // Strapi itself
 
@@ -21,6 +20,17 @@ module.exports = [
         'https://monarchdem.me', // CHANGE THIS
         'https://examportal.monarchdem.me'
       ],
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+      headers: [
+        'Content-Type',
+        'Authorization',
+        'Origin',
+        'Accept',
+        'X-Requested-With',
+        'X-CSRF-Token'
+      ],
+      credentials: true,
+      keepHeaderOnError: true,
     },
   },
   'strapi::poweredBy',

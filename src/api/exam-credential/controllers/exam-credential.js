@@ -47,7 +47,7 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
   // Multi-course cart: verify Paystack, dynamic pricing, returning-student check
   // ──────────────────────────────────────────────
   async registerAndVerify(ctx) {
-    const { reference, firstname, surname, matricNo, courseIds } = ctx.request.body;
+    const { reference, firstname, surname, matricNo, contactEmail, courseIds } = ctx.request.body;
 
     // 1. Validate required fields
     if (!reference || !firstname || !surname || !matricNo || !Array.isArray(courseIds) || courseIds.length === 0) {
@@ -146,16 +146,28 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
           MoodlePassword: existingStudent.MoodlePassword,
           Firstname: existingStudent.Firstname,
           Surname: existingStudent.Surname,
-          Email: existingStudent.Email,
+          MoodleEmail: existingStudent.MoodleEmail,
         };
         // Fire async — don't block the HTTP response
         syncStudentToMoodle(returningStudentData, courses, assignedBatches).catch((err) =>
           strapi.log.error('Moodle sync (returning) background error:', err)
         );
 
+        // Look up existing StudentProfile to return the MasterPIN
+        let masterPIN = null;
+        try {
+          const existingProfile = await strapi.db.query('api::student-profile.student-profile').findOne({
+            where: { MatricNumber: matricNo.trim() },
+          });
+          masterPIN = existingProfile?.MasterPIN || null;
+        } catch (profileErr) {
+          strapi.log.warn('Could not retrieve StudentProfile for returning student:', profileErr);
+        }
+
         return ctx.send({
           message: 'Payment successful! Courses added to your existing profile.',
           assignedBatches,
+          masterPIN,
         });
       }
 
@@ -163,13 +175,15 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
       const moodlePassword = generateMoodlePassword();
       const generatedEmail = `${matricNo.trim()}@monarchdem.me`;
 
+      // Create exam credential
       const created = await strapi.documents('api::exam-credential.exam-credential').create({
         data: {
           Firstname: firstname.trim(),
           Surname: surname.trim(),
           LowSurname: surname.toLowerCase().trim(),
           MatricNo: matricNo.trim(),
-          Email: generatedEmail.toLowerCase().trim(),
+          MoodleEmail: generatedEmail.toLowerCase().trim(),
+          ContactEmail: contactEmail ? contactEmail.trim() : null,
           MoodlePassword: moodlePassword,
           CourseBatches: assignedBatches,
           IsSynced: false,
@@ -178,6 +192,25 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
         status: 'published',
       });
 
+      // Create StudentProfile — triggers beforeCreate lifecycle hook
+      // which auto-generates the MasterPIN
+      let studentProfile;
+      try {
+        studentProfile = await strapi.entityService.create('api::student-profile.student-profile', {
+          data: {
+            MatricNumber: matricNo.trim(),
+            ContactEmail: contactEmail ? contactEmail.trim() : null,
+          },
+        });
+      } catch (profileErr) {
+        // If profile creation fails (e.g. duplicate MatricNumber), log but don't block
+        strapi.log.error('StudentProfile creation failed:', profileErr);
+        // Try to find an existing profile as fallback
+        studentProfile = await strapi.db.query('api::student-profile.student-profile').findOne({
+          where: { MatricNumber: matricNo.trim() },
+        });
+      }
+
       // Sync new student to Moodle (create user + enrol + group)
       const newStudentData = {
         documentId: created.documentId,
@@ -185,7 +218,7 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
         MoodlePassword: moodlePassword,
         Firstname: firstname.trim(),
         Surname: surname.trim(),
-        Email: generatedEmail.toLowerCase().trim(),
+        MoodleEmail: generatedEmail.toLowerCase().trim(),
       };
       // Fire async — don't block the HTTP response
       syncStudentToMoodle(newStudentData, courses, assignedBatches).catch((err) =>
@@ -195,6 +228,8 @@ module.exports = createCoreController('api::exam-credential.exam-credential', ({
       return ctx.send({
         message: 'Registration successful! Your Moodle account is ready.',
         assignedBatches,
+        moodlePassword,
+        masterPIN: studentProfile?.MasterPIN || null,
       });
     } catch (err) {
       strapi.log.error('registerAndVerify error:', err);

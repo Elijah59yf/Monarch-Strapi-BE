@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exam_results",
+  "info": {
+    "singularName": "exam-result",
+    "pluralName": "exam-results",
+    "displayName": "ExamResult"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "MatricNumber": {
+      "type": "string",
+      "required": true
+    },
+    "CourseCode": {
+      "type": "string",
+      "required": true
+    },
+    "FinalScore": {
+      "type": "decimal",
+      "required": true
+    },
+    "IsPublished": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

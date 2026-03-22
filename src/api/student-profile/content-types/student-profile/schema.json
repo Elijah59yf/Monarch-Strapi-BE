@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_profiles",
+  "info": {
+    "singularName": "student-profile",
+    "pluralName": "student-profiles",
+    "displayName": "StudentProfile"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "MatricNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "MasterPIN": {
+      "type": "string",
+      "unique": true
+    },
+    "ContactEmail": {
+      "type": "email"
+    },
+    "IsEmailSent": {
+      "type": "boolean",
+      "default": false
+    },
+    "exam_credentials": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam-credential.exam-credential",
+      "mappedBy": "student_profile"
+    }
+  }
+}

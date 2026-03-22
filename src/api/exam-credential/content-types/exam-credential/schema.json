@@ -14,7 +14,8 @@
     "MatricNo": { "type": "string" },
     "Surname": { "type": "string" },
     "LowSurname": { "type": "string" },
-    "Email": { "type": "email" },
+    "MoodleEmail": { "type": "email" },
+    "ContactEmail": { "type": "email" },
     "MoodlePassword": { "type": "string" },
     "CourseBatches": { "type": "json" },
     "IsSynced": { "type": "boolean", "default": false },
@@ -22,6 +23,12 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::course.course",
+      "inversedBy": "exam_credentials"
+    },
+    "student_profile": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::student-profile.student-profile",
       "inversedBy": "exam_credentials"
     }
   }

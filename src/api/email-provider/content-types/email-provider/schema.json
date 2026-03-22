@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "email_providers",
+  "info": {
+    "singularName": "email-provider",
+    "pluralName": "email-providers",
+    "displayName": "EmailProvider",
+    "description": "Global email provider configuration for the broadcasting system"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "EmailProviderMode": {
+      "type": "enumeration",
+      "enum": [
+        "Automatic",
+        "Resend Only",
+        "Brevo Only"
+      ],
+      "default": "Automatic",
+      "required": true
+    }
+  }
+}

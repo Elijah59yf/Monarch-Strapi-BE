@@ -15,15 +15,17 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.1",
     "@strapi/plugin-cloud": "5.29.0",
     "@strapi/plugin-users-permissions": "5.29.0",
     "@strapi/strapi": "5.29.0",
     "mysql2": "3.9.8",
     "pg": "^8.16.3",
-    "strapi-csv-import-export": "latest",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "resend": "^6.9.4",
+    "strapi-csv-import-export": "latest",
     "styled-components": "^6.0.0"
   },
   "engines": {
