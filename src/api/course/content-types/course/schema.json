@@ -69,6 +69,10 @@
       "type": "boolean",
       "default": false
     },
+    "Hidden": {
+      "type": "boolean",
+      "default": false
+    },
     "ActiveBatches": {
       "type": "json",
       "default": []
